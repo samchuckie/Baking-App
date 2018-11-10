@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 List<Recipe> lrecipe=response.body();;
-                //final Recipes s = new Recipes(lrecipe);
                 allRecipesAdapter.setRecipes(lrecipe);
             }
             @Override
@@ -58,4 +57,5 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
         startActivity(intent);
 
     }
+
 }

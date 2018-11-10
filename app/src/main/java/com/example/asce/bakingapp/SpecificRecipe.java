@@ -16,7 +16,7 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
     StepsAdapter stepsAdapter;
     DividerItemDecoration decoration;
     LinearLayoutManager linearLayoutManager;
-    Recipe ff;
+    Recipe recipe;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +32,17 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
 
         Intent intent = getIntent();
         if ((intent!=null) && intent.hasExtra("a")){
-            ff= intent.getParcelableExtra("a");
+            recipe= intent.getParcelableExtra("a");
         }
-        stepsAdapter.setSteps(ff.getSteps());
+        stepsAdapter.setSteps(recipe.getSteps());
 
     }
 
     @Override
-    public void stepclicked(Step step) {
+    public void stepclicked(int step) {
         Intent intent = new Intent(this ,Stepper.class);
+        intent.putExtra("a" ,step );
+        intent.putExtra("b" ,recipe );
+        startActivity(intent);
     }
 }
