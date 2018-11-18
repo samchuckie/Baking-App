@@ -3,16 +3,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="64dp">
-
-    <TextView
-        android:id="@+id/steps_item_rv"
+    android:layout_height="match_parent"
+    tools:context=".IngredientsActivity"
+    >
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="30sp"
-        tools:text="Cake"
-        />
+        android:id="@+id/ig_rv"
+        >
+
+    </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

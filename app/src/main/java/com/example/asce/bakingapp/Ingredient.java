@@ -3,10 +3,34 @@ package com.example.asce.bakingapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-class Ingredient implements Parcelable {
+public class Ingredient implements Parcelable {
     private double  quantity;
     private String measure;
     private String ingredient;
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getMeasure() {
+        return measure;
+    }
+
+    public void setMeasure(String measure) {
+        this.measure = measure;
+    }
+
+    public String getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(String ingredient) {
+        this.ingredient = ingredient;
+    }
 
     protected Ingredient(Parcel in) {
         quantity = in.readDouble();

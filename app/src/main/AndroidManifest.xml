@@ -19,7 +19,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SpecificRecipe" />
-        <activity android:name=".Stepper"></activity>
+        <activity android:name=".Stepper" />
+        <activity android:name=".IngredientsActivity"></activity>
     </application>
 
 </manifest>

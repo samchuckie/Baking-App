@@ -7,9 +7,13 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.asce.bakingapp.Adapters.StepsAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.StepItemClicked {
     RecyclerView recyclerView;
@@ -17,6 +21,7 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
     DividerItemDecoration decoration;
     LinearLayoutManager linearLayoutManager;
     Recipe recipe;
+    TextView ingredients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,19 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
         if ((intent!=null) && intent.hasExtra("a")){
             recipe= intent.getParcelableExtra("a");
         }
+
         stepsAdapter.setSteps(recipe.getSteps());
+        ingredients =findViewById(R.id.ing);
+        ingredients.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ingredientsIntent =  new Intent(getApplicationContext(),IngredientsActivity.class);
+                ArrayList<Ingredient> ingredient=new ArrayList<>(recipe.getIngredients());
+                ingredientsIntent.putParcelableArrayListExtra("ing",ingredient);
+                startActivity(ingredientsIntent);
+            }
+        });
+
 
     }
 
