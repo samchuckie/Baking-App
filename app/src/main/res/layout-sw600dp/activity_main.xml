@@ -3,17 +3,13 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="128dp"
-    >
-    <TextView
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recipe_item_rv"
-        android:textSize="38sp"
-        android:gravity="center"
-        tools:text="Cake"
-        />
+        android:id="@+id/allitems_land"/>
 
 </LinearLayout>

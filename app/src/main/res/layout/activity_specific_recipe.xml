@@ -11,9 +11,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:text="Ingredients"
+        android:text="Ingredieants"
         android:id="@+id/ing"
         />
+
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

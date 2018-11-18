@@ -27,6 +27,7 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
         stepsAdapter = new StepsAdapter(this);
         linearLayoutManager = new LinearLayoutManager(this);
         decoration = new DividerItemDecoration(getApplicationContext(),DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(decoration);
         recyclerView.setAdapter(stepsAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
 
