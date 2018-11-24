@@ -2,6 +2,7 @@ package com.example.asce.bakingapp;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -20,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements AllRecipesAdapter.ItemClickInterface {
+public class MainActivity extends AppCompatActivity implements AllRecipesAdapter.ItemClickInterface,RecipeResources.TimeInt {
     // TODO : CHECK INTERNET CONNCETIVITY FIRST
     RecyclerView allRecipes;
     LinearLayoutManager linearLayoutManager;
@@ -51,8 +52,6 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
             allRecipes.setLayoutManager(gridLayoutManager);
         }
 
-
-
         allRecipesAdapter = new AllRecipesAdapter(this);
         allRecipes.setAdapter(allRecipesAdapter);
         recipesInt = RecipeRetro.getinsance().create(RecipesInt.class);
@@ -61,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 List<Recipe> lrecipe=response.body();;
+
+
                 allRecipesAdapter.setRecipes(lrecipe);
             }
             @Override
@@ -75,5 +76,16 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
         // TODO make name a constant
         intent.putExtra("a",r);
         startActivity(intent);
+    }
+
+    @Override
+    public void LoadComplete(List<Recipe> lrecipe) {
+        allRecipesAdapter.setRecipes(lrecipe);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //RecipeResources.getRecipes(this,this, );
     }
 }

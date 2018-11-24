@@ -1,6 +1,7 @@
 package com.example.asce.bakingapp;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -22,6 +23,12 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
     LinearLayoutManager linearLayoutManager;
     Recipe recipe;
     TextView ingredients;
+    Boolean landscape;
+    FragmentManager fragmentManager;
+    VideoFragment videoFragment;
+    String checker = null ;
+    TextView descrip;
+    // TODO On rotation add the check to saved instance
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,13 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
         recyclerView.addItemDecoration(decoration);
         recyclerView.setAdapter(stepsAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
+        if (findViewById(R.id.recipe_frame)!=null)
+        {
+            landscape=true;
+            fragmentManager = getSupportFragmentManager();
+            videoFragment = new VideoFragment();
+            descrip =findViewById(R.id.descrip_tv);
+        }
 
         Intent intent = getIntent();
         if ((intent!=null) && intent.hasExtra("a")){
@@ -52,15 +66,36 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
                 startActivity(ingredientsIntent);
             }
         });
-
-
     }
 
     @Override
     public void stepclicked(int step) {
-        Intent intent = new Intent(this ,Stepper.class);
-        intent.putExtra("a" ,step );
-        intent.putExtra("b" ,recipe );
-        startActivity(intent);
+        if(landscape!=null){
+            if(landscape) {
+                String url = recipe.getSteps().get(step).getVideoURL();
+                String desc = recipe.getSteps().get(step).getDescription();
+                videoFragment.setUrl(url);
+                if (checker != null) {
+                    Log.e("sam", "checker is " + checker);
+                   // videoFragment.release();
+                    videoFragment= new VideoFragment();
+                    videoFragment.setUrl(url);
+                    getSupportFragmentManager().beginTransaction().replace(R.id.recipe_frame, videoFragment).commit();
+
+                } else {
+                    Log.e("sam", "checker is nul    l");
+                    checker = "added";
+                    fragmentManager.beginTransaction().add(R.id.recipe_frame, videoFragment).commit();
+
+                }
+                descrip.setText(desc);
+            }
+        }
+        else {
+            Intent intent = new Intent(this ,StepsActivity.class);
+            intent.putExtra("a" ,step );
+            intent.putExtra("b" ,recipe );
+            startActivity(intent);
+        }
     }
 }

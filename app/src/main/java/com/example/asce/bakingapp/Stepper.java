@@ -27,7 +27,6 @@ public class Stepper extends AppCompatActivity {
     Step step;
     Recipe recipe;
     Button prev, next;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
