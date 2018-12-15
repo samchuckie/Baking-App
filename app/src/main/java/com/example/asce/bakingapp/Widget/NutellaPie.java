@@ -1,20 +1,19 @@
 package com.example.asce.bakingapp.Widget;
 
-import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.RemoteViews;
-import com.example.asce.bakingapp.MainActivity;
+
 import com.example.asce.bakingapp.R;
 import com.example.asce.bakingapp.Services.RecipeServices;
 
-public class BakingWidget extends AppWidgetProvider {
-    private static final String RECIPENAME ="Brownies";
+public class NutellaPie extends AppWidgetProvider {
+    private static final String RECIPENAME ="Nutella Pie";
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.Recipe_layout);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_layout);
         views.setTextViewText(R.id.recipe_title , RECIPENAME);
         Intent data = new Intent(context,RecipeServices.class) ;
         data.setAction(RECIPENAME);

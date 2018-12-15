@@ -2,6 +2,7 @@ package com.example.asce.bakingapp;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.support.annotation.VisibleForTesting;
 import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
     RecipesInt recipesInt;
     DividerItemDecoration decoration;
     Boolean portait;
+    IdlingResourceEx idlingResourceEx;
 
 
     @Override
@@ -55,19 +57,18 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
         allRecipesAdapter = new AllRecipesAdapter(this);
         allRecipes.setAdapter(allRecipesAdapter);
         recipesInt = RecipeRetro.getinsance().create(RecipesInt.class);
-        Call<List<Recipe>> recipesCall = recipesInt.getall();
-        recipesCall.enqueue(new Callback<List<Recipe>>() {
-            @Override
-            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                List<Recipe> lrecipe=response.body();;
-
-
-                allRecipesAdapter.setRecipes(lrecipe);
-            }
-            @Override
-            public void onFailure(Call<List<Recipe>> call, Throwable t) {
-            }
-        });
+        getIdlingresource();
+//        Call<List<Recipe>> recipesCall = recipesInt.getall();
+//        recipesCall.enqueue(new Callback<List<Recipe>>() {
+//            @Override
+//            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+//                List<Recipe> lrecipe=response.body();
+//                //allRecipesAdapter.setRecipes(lrecipe);
+//            }
+//            @Override
+//            public void onFailure(Call<List<Recipe>> call, Throwable t) {
+//            }
+//        });
     }
 
     @Override
@@ -86,6 +87,14 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
     @Override
     protected void onStart() {
         super.onStart();
-        //RecipeResources.getRecipes(this,this, );
+        // TODO change idling from null
+        RecipeResources.getRecipes(this,idlingResourceEx);
+    }
+    @VisibleForTesting
+    public IdlingResourceEx getIdlingresource() {
+        if (idlingResourceEx == null) {
+            idlingResourceEx = new IdlingResourceEx();
+        }
+        return  idlingResourceEx;
     }
 }

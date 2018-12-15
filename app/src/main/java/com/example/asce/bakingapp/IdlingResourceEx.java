@@ -11,12 +11,12 @@ public class IdlingResourceEx implements IdlingResource {
     private volatile ResourceCallback resourceCallback;
     @Override
     public String getName() {
-        return null;
+        return this.getClass().getName();
     }
 
     @Override
     public boolean isIdleNow() {
-        return false;
+        return mIsIdleNow.get();
     }
 
     @Override
@@ -28,6 +28,8 @@ public class IdlingResourceEx implements IdlingResource {
         mIsIdleNow.set(isIdleNow);
         if (isIdleNow && resourceCallback != null) {
             resourceCallback.onTransitionToIdle();
+
         }
     }
+
 }

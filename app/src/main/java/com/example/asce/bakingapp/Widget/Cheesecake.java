@@ -3,22 +3,26 @@ package com.example.asce.bakingapp.Widget;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.example.asce.bakingapp.R;
+import com.example.asce.bakingapp.Services.RecipeServices;
 
 /**
  * Implementation of App Widget functionality.
  */
 public class Cheesecake extends AppWidgetProvider {
-
+    private static final String RECIPENAME ="Cheesecake";
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
-        CharSequence widgetText = context.getString(R.string.appwidget_text);
-        // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.cheesecake);
-        views.setTextViewText(R.id.appwidget_text, widgetText);
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_layout);
+        views.setTextViewText(R.id.recipe_title , RECIPENAME);
+        Intent data = new Intent(context,RecipeServices.class) ;
+        data.setAction(RECIPENAME);
+        views.setRemoteAdapter(R.id.ingredient_list , data);
+        views.setEmptyView(R.id.ingredient_list , R.id.empty_tv);
+        appWidgetManager.updateAppWidget(appWidgetId, views);
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);

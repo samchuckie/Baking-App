@@ -28,6 +28,7 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
     VideoFragment videoFragment;
     String checker = null ;
     TextView descrip;
+    String url;
     // TODO On rotation add the check to saved instance
 
     @Override
@@ -72,7 +73,11 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
     public void stepclicked(int step) {
         if(landscape!=null){
             if(landscape) {
-                String url = recipe.getSteps().get(step).getVideoURL();
+                url = recipe.getSteps().get(step).getVideoURL();
+//                if (url==null){
+//                  url = recipe.getSteps().get(step).getThumbnailURL();
+//
+//                }
                 String desc = recipe.getSteps().get(step).getDescription();
                 videoFragment.setUrl(url);
                 if (checker != null) {

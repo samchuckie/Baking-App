@@ -24,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class BrowniesService extends RemoteViewsService {
+public class RecipeServices extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new ListFactory(this.getApplicationContext(),intent);
@@ -41,26 +41,20 @@ class ListFactory implements RemoteViewsService.RemoteViewsFactory{
         mcontext = applicationContext;
         mintent=intent;
     }
-
     @Override
     public void onCreate() {
         action = mintent.getAction();
-        Log.e("sam" , "action is " + action);
-        Log.e("sam" , "Oncreate of RemoteViewFactory");
         RecipesInt recipesInt = RecipeRetro.getinsance().create(RecipesInt.class);
         Call<List<Recipe>> recipesCall = recipesInt.getall();
         recipesCall.enqueue(new Callback<List<Recipe>>() {
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                Log.e("sam" , "Second ingrident is " +response.body().get(1).getName());
                 lrecipe=response.body();
                 for(int counter = 0 ; counter <lrecipe.size();counter++) {
                     if (lrecipe.get(counter).getName().equals(action)){
                         ingrident = lrecipe.get(counter).getIngredients();
-
                     }
                 }
-
                 for(int count = 0 ; count <ingrident.size();count++){
                     ingridentText.add(String.valueOf(count) + ". " + ingrident.get(count).getIngredient());
                 }
@@ -69,20 +63,13 @@ class ListFactory implements RemoteViewsService.RemoteViewsFactory{
             public void onFailure(Call<List<Recipe>> call, Throwable t) {
             }
         });
-
-
     }
-
     @Override
     public void onDataSetChanged() {
-
     }
-
     @Override
     public void onDestroy() {
-
     }
-
     @Override
     public int getCount() {
         try {
@@ -90,12 +77,9 @@ class ListFactory implements RemoteViewsService.RemoteViewsFactory{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        // todo change this count
         if (ingridentText!=null){
-            Log.e("sam" , "size is " + ingridentText.size());
             return ingridentText.size();
         }
-        Log.e("sam" , "Null");
         return 0;
     }
 

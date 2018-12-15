@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -48,12 +49,16 @@ public class VideoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_video, container, false);
         playerView = v. findViewById(R.id.frag_exo);
-        if (getUrl()!=null)
+        if (!getUrl().equals(""))
         {
             initializeExoPlayer(getUrl());
         }
         else {
             Log.e("sam" , "string is null");
+            playerView.setVisibility(View.GONE);
+            TextView missingcontent = v. findViewById(R.id.missing_content);
+            missingcontent.setVisibility(View.VISIBLE);
+
         }
 
         return v;
