@@ -72,26 +72,24 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
     }
     @Override
     public void stepclicked(int step) {
-        if(landscape!=null){
-            if(landscape) {
-                url = recipe.getSteps().get(step).getVideoURL();
-                if (url.equals("")){
-                  url = recipe.getSteps().get(step).getThumbnailURL();
-                }
-                String desc = recipe.getSteps().get(step).getDescription();
-                videoFragment.setUrl(url);
-                if (checker != null) {
-                    videoFragment= new VideoFragment();
-                    videoFragment.setUrl(url);
-                    fragmentManager.beginTransaction().replace(R.id.recipe_frame, videoFragment).commit();
-                } else {
-                    Log.e("sam", "checker is null");
-                    checker = "added";
-                    fragmentManager.beginTransaction().add(R.id.recipe_frame, videoFragment).commit();
-
-                }
-                descrip.setText(desc);
+        if( landscape){
+            url = recipe.getSteps().get(step).getVideoURL();
+            if (url.equals("")){
+              url = recipe.getSteps().get(step).getThumbnailURL();
             }
+            String desc = recipe.getSteps().get(step).getDescription();
+            videoFragment.setUrl(url);
+            if (checker != null) {
+                videoFragment= new VideoFragment();
+                videoFragment.setUrl(url);
+                fragmentManager.beginTransaction().replace(R.id.recipe_frame, videoFragment).commit();
+            } else {
+                Log.e("sam", "checker is null");
+                checker = "added";
+                fragmentManager.beginTransaction().add(R.id.recipe_frame, videoFragment).commit();
+
+            }
+            descrip.setText(desc);
         }
         else {
             Intent intent = new Intent(this ,StepsActivity.class);
