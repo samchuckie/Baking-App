@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="38sp"
-        android:text="Ingredient "
+        android:text="Ingredient"
         android:id="@+id/ing"
         android:paddingBottom="16dp"
         />
@@ -23,5 +23,6 @@
         >
 
     </android.support.v7.widget.RecyclerView>
+
 
 </LinearLayout>

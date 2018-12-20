@@ -1,7 +1,10 @@
 package com.example.asce.bakingapp.Adapters;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,9 +16,13 @@ import java.util.List;
 public class AllRecipesAdapter extends RecyclerView.Adapter<AllRecipesAdapter.ViewHolder> {
     private List<Recipe> recipes = null;
     private ItemClickInterface itemClickInterface;
+    private Context context;
+    Drawable drawableleft;
 
-    public AllRecipesAdapter(ItemClickInterface itemClickInterface) {
+    public AllRecipesAdapter(ItemClickInterface itemClickInterface, Context context) {
         this.itemClickInterface=itemClickInterface;
+        this.context=context;
+
     }
 
     @NonNull
@@ -27,6 +34,23 @@ public class AllRecipesAdapter extends RecyclerView.Adapter<AllRecipesAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.sRecipe.setText(recipes.get(i).getName());
+        String recipename = recipes.get(i).getName();
+        Log.e("sam" , "" + recipename);
+        switch (recipename){
+            case "Nutella Pie":
+                drawableleft = context.getResources().getDrawable( R.drawable.ic_jarbutter );
+                break;
+            case "Brownies":
+                drawableleft = context.getResources().getDrawable( R.drawable.ic_brownie );
+                break;
+            case "Yellow Cake":
+                drawableleft = context.getResources().getDrawable( R.drawable.ic_yellowcakes );
+                break;
+            case "Cheesecake":
+                drawableleft = context.getResources().getDrawable( R.drawable.ic_cake );
+                break;
+        }
+        viewHolder.sRecipe.setCompoundDrawablesWithIntrinsicBounds(drawableleft,null,null,null);
     }
     @Override
     public int getItemCount() {

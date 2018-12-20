@@ -2,9 +2,9 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialKeyguardLayout="@layout/recipe_layout"
     android:initialLayout="@layout/recipe_layout"
-    android:minWidth="80dp"
-    android:minHeight="120dp"
-    android:previewImage="@drawable/brownie"
+    android:minWidth="128dp"
+    android:minHeight="128dp"
+    android:previewImage="@drawable/ic_brownie"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen">

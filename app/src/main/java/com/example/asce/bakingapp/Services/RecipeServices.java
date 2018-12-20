@@ -82,7 +82,6 @@ class ListFactory implements RemoteViewsService.RemoteViewsFactory{
         }
         return 0;
     }
-
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews remoteViews = new RemoteViews(mcontext.getPackageName() ,R.layout.widgetlist_layout);

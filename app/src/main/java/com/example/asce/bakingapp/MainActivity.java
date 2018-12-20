@@ -1,19 +1,13 @@
 package com.example.asce.bakingapp;
 
 import android.content.Intent;
-import android.graphics.Point;
 import android.support.annotation.VisibleForTesting;
-import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
-
 import com.example.asce.bakingapp.Adapters.AllRecipesAdapter;
 import com.example.asce.bakingapp.Retro.RecipeRetro;
 import com.example.asce.bakingapp.Retro.RecipesInt;
@@ -29,10 +23,8 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
     GridLayoutManager gridLayoutManager;
     AllRecipesAdapter allRecipesAdapter;
     RecipesInt recipesInt;
-    DividerItemDecoration decoration;
     Boolean portait;
     IdlingResourceEx idlingResourceEx;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +32,10 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
         setContentView(R.layout.activity_main);
         if(findViewById(R.id.allitems) !=null){
             portait = true;
-            Log.e("sam" , "Its portait mode");
             allRecipes = findViewById(R.id.allitems);
             linearLayoutManager = new LinearLayoutManager(this);
             allRecipes.setLayoutManager(linearLayoutManager);
-            decoration = new DividerItemDecoration(getApplicationContext(),DividerItemDecoration.VERTICAL);
-            allRecipes.addItemDecoration(decoration);
+            // todo add touch selector
         }
         else {
             Log.e("sam" , "Its landscape mode");
@@ -53,22 +43,20 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
             gridLayoutManager = new GridLayoutManager(this ,2);
             allRecipes.setLayoutManager(gridLayoutManager);
         }
-
-        allRecipesAdapter = new AllRecipesAdapter(this);
+        allRecipesAdapter = new AllRecipesAdapter(this ,this);
         allRecipes.setAdapter(allRecipesAdapter);
         recipesInt = RecipeRetro.getinsance().create(RecipesInt.class);
-        getIdlingresource();
-//        Call<List<Recipe>> recipesCall = recipesInt.getall();
-//        recipesCall.enqueue(new Callback<List<Recipe>>() {
-//            @Override
-//            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-//                List<Recipe> lrecipe=response.body();
-//                //allRecipesAdapter.setRecipes(lrecipe);
-//            }
-//            @Override
-//            public void onFailure(Call<List<Recipe>> call, Throwable t) {
-//            }
-//        });
+        Call<List<Recipe>> recipesCall = recipesInt.getall();
+        recipesCall.enqueue(new Callback<List<Recipe>>() {
+            @Override
+            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+                List<Recipe> lrecipe=response.body();
+                allRecipesAdapter.setRecipes(lrecipe);
+            }
+            @Override
+            public void onFailure(Call<List<Recipe>> call, Throwable t) {
+            }
+        });
     }
 
     @Override
@@ -83,18 +71,16 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
     public void LoadComplete(List<Recipe> lrecipe) {
         allRecipesAdapter.setRecipes(lrecipe);
     }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // TODO change idling from null
-        RecipeResources.getRecipes(this,idlingResourceEx);
-    }
     @VisibleForTesting
     public IdlingResourceEx getIdlingresource() {
         if (idlingResourceEx == null) {
+            Log.e("sam" , "Idling resource set");
             idlingResourceEx = new IdlingResourceEx();
         }
         return  idlingResourceEx;
+    }
+    @VisibleForTesting
+    public void callNetwork(){
+        RecipeResources.getRecipes(this,idlingResourceEx);
     }
 }

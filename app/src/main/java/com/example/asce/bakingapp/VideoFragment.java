@@ -1,6 +1,5 @@
 package com.example.asce.bakingapp;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -21,6 +19,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 
 public class VideoFragment extends Fragment {
 
@@ -29,6 +28,7 @@ public class VideoFragment extends Fragment {
     String url;
     PlayerView playerView ;
     SimpleExoPlayer player;
+    TextView missingcontent;
 
     public String getUrl() {
         return url;
@@ -40,8 +40,9 @@ public class VideoFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
+        // setRetainInstance to true onCreate protect from destroy and recreate and
+        // retain the current instance of the fragment when the activity is recreated.
+        setRetainInstance(true);
     }
 
     @Nullable
@@ -49,18 +50,8 @@ public class VideoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_video, container, false);
         playerView = v. findViewById(R.id.frag_exo);
-        if (!getUrl().equals(""))
-        {
-            initializeExoPlayer(getUrl());
-        }
-        else {
-            Log.e("sam" , "string is null");
-            playerView.setVisibility(View.GONE);
-            TextView missingcontent = v. findViewById(R.id.missing_content);
-            missingcontent.setVisibility(View.VISIBLE);
-
-        }
-
+        missingcontent = v. findViewById(R.id.missing_content);
+        Log.e("sam" , "Oncreateview");
         return v;
     }
     public void initializeExoPlayer(String videoUrl) {
@@ -70,10 +61,29 @@ public class VideoFragment extends Fragment {
         playerView.setPlayer(player);
         Uri uri = Uri.parse(videoUrl);
         MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("bakingapp")).createMediaSource(uri);
+        //player.seekTo(8200);
         player.setPlayWhenReady(true);
         player.prepare(mediaSource, true, false);
-        Log.e("sam","Exoplaer initialized");
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (!getUrl().equals("")&& Util.SDK_INT>23)
+        {
+            initializeExoPlayer(getUrl());
+        }
+        else {
+            playerView.setVisibility(View.GONE);
+            missingcontent.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
     public void release() {
         if (player != null) {
             player.release();
@@ -85,16 +95,25 @@ public class VideoFragment extends Fragment {
 
         }
     }
-
     @Override
     public void onStop() {
         super.onStop();
-        release();
+        if(Util.SDK_INT >23){
+            release();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.e("sam" , "ondestroy for fragment");
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        release();
+        if(Util.SDK_INT >23){
+            release();
+        }
     }
 }

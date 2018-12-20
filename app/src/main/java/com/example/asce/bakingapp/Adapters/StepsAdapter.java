@@ -1,5 +1,7 @@
 package com.example.asce.bakingapp.Adapters;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,9 +17,7 @@ import java.util.List;
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
     private List<Step> steps = null;
     StepItemClicked stepItemClicked;
-
     public StepsAdapter(StepItemClicked stepItemClicked) {
-        this.steps = steps;
         this.stepItemClicked = stepItemClicked;
     }
 
@@ -31,7 +31,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull StepsAdapter.ViewHolder viewHolder, int i) {
         viewHolder.textView.setText(steps.get(i).getShortDescription());
-
     }
 
     @Override
@@ -42,7 +41,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
             return 0;
         }
     }
-
     public interface StepItemClicked {
         void stepclicked(int step);
     }

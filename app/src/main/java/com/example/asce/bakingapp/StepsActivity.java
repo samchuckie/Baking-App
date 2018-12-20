@@ -39,9 +39,12 @@ public class StepsActivity extends AppCompatActivity  {
             recipe = intent.getParcelableExtra("b");
             step = recipe.getSteps().get(clickedstep);
             videoUrl = step.getVideoURL();
+            if (videoUrl.equals("")){
+                videoUrl=step.getThumbnailURL();
+            }
             videoFragment.setUrl(videoUrl);
             videsc= step.getDescription();
-            Log.e("sam", "clicked index is " + clickedstep);
+            Log.e("sam", "Video url is " + step.getVideoURL());
         }
 
         if (!videsc.isEmpty()){
@@ -66,9 +69,6 @@ public class StepsActivity extends AppCompatActivity  {
                 else {
                     Toast.makeText(getApplicationContext(),"Reached end of steps" , Toast.LENGTH_SHORT).show();
                 }
-                // TODO GO THROUGH THE LIST AND CHOOSE NEXT
-
-
             }
         });
         prev.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +76,6 @@ public class StepsActivity extends AppCompatActivity  {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext() ,StepsActivity.class);
                 Log.e("sam", "Index is " + clickedstep);
-
                 if (clickedstep>0){
                     clickedstep--;
                     intent.putExtra("a" ,clickedstep );
@@ -86,10 +85,14 @@ public class StepsActivity extends AppCompatActivity  {
                 else {
                     Toast.makeText(getApplicationContext(),"Reached beginning of steps" , Toast.LENGTH_SHORT).show();
                 }
-                // TODO GO THROUGH THE LIST AND CHOOSE NEXT
-
-
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.e("sam" , "destroyed");
+        Log.e("sam" , "Is fragment destroyed? : " + getSupportFragmentManager().isDestroyed());
     }
 }

@@ -28,6 +28,13 @@ public class Stepper extends AppCompatActivity {
     Recipe recipe;
     Button prev, next;
     @Override
+
+   //
+   //
+    // THIS CLASS IS NOT USED  ANYMORE
+    //
+    //
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stepper);
@@ -88,7 +95,6 @@ public class Stepper extends AppCompatActivity {
         player.prepare(mediaSource, true, false);
     }
 
-    // TODO RELEASE PLAYER
     private void release() {
         if (player != null) {
             player.release();
