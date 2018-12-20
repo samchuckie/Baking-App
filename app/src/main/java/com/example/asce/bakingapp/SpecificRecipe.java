@@ -18,7 +18,7 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
     LinearLayoutManager linearLayoutManager;
     Recipe recipe;
     TextView ingredients;
-    Boolean landscape;
+    Boolean landscape=false;
     FragmentManager fragmentManager;
     VideoFragment videoFragment;
     String checker = null ;
