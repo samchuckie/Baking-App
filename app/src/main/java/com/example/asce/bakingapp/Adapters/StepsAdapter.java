@@ -1,7 +1,5 @@
 package com.example.asce.bakingapp.Adapters;
 
-import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +14,7 @@ import java.util.List;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> {
     private List<Step> steps = null;
-    StepItemClicked stepItemClicked;
+    private StepItemClicked stepItemClicked;
     public StepsAdapter(StepItemClicked stepItemClicked) {
         this.stepItemClicked = stepItemClicked;
     }
@@ -53,7 +51,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView textView;
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.steps_item_rv);
             itemView.setOnClickListener(this);

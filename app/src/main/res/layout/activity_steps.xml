@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,13 +17,6 @@
         >
 
     </FrameLayout>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/vid_desc"
-        tools:text="A short description"
-        android:textSize="24dp"
-        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,16 +27,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/prev_vid"
-            android:text="Previous"
-            />
+            android:text="@string/previous"
+            tools:ignore="ButtonStyle" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/next_vid"
-            android:text="Next one"
+            android:text="@string/next"
             android:layout_marginLeft="160dp"
-
-            />
+            android:layout_marginStart="160dp"
+            tools:ignore="ButtonStyle" />
 
     </LinearLayout>
 

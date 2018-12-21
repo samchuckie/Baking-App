@@ -1,25 +1,16 @@
 package com.example.asce.bakingapp.Services;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
 import com.example.asce.bakingapp.Ingredient;
 import com.example.asce.bakingapp.R;
 import com.example.asce.bakingapp.Recipe;
 import com.example.asce.bakingapp.Retro.RecipeRetro;
 import com.example.asce.bakingapp.Retro.RecipesInt;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,12 +22,12 @@ public class RecipeServices extends RemoteViewsService {
     }
 }
 class ListFactory implements RemoteViewsService.RemoteViewsFactory{
-    List<Recipe> lrecipe;
-    List<Ingredient> ingrident;
-    List<String> ingridentText = new ArrayList<>();
+    private List<Recipe> lrecipe;
+    private List<Ingredient> ingrident;
+    private List<String> ingridentText = new ArrayList<>();
     private Context mcontext;
-    Intent mintent;
-    String action;
+    private Intent mintent;
+    private String action;
     public ListFactory(Context applicationContext, Intent intent) {
         mcontext = applicationContext;
         mintent=intent;
@@ -50,7 +41,8 @@ class ListFactory implements RemoteViewsService.RemoteViewsFactory{
             @Override
             public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
                 lrecipe=response.body();
-                for(int counter = 0 ; counter <lrecipe.size();counter++) {
+                assert lrecipe != null;
+                for(int counter = 0; counter <lrecipe.size(); counter++) {
                     if (lrecipe.get(counter).getName().equals(action)){
                         ingrident = lrecipe.get(counter).getIngredients();
                     }

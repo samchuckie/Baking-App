@@ -1,69 +1,59 @@
 package com.example.asce.bakingapp;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static com.example.asce.bakingapp.Constant.Const.MAIN_ACTIVITY;
+import static com.example.asce.bakingapp.Constant.Const.RECIPE_ACTIVITY;
+
 public class StepsActivity extends AppCompatActivity  {
-    VideoFragment videoFragment;
-    int clickedstep;
-    String videoUrl;
-    Step step;
-    Recipe recipe;
-    Context context;
-    Button prev,next;
-    TextView desc;
-    String videsc;
+    private int clickedstep;
+    private Recipe recipe;
+    private String videsc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
-        next =  findViewById(R.id.next_vid);
-        prev =  findViewById(R.id.prev_vid);
-        desc =findViewById(R.id.vid_desc);
-
-        videoFragment= new VideoFragment();
+        Button next = findViewById(R.id.next_vid);
+        Button prev = findViewById(R.id.prev_vid);
+        VideoFragment videoFragment = new VideoFragment();
         FragmentManager fragmentManager= getSupportFragmentManager();
         Intent intent = getIntent();
-        context=getApplicationContext();
-        if((intent!=null)&&(intent.hasExtra("a"))&&(intent.hasExtra("b")))
+        if((intent!=null)&&(intent.hasExtra(MAIN_ACTIVITY))&&(intent.hasExtra(RECIPE_ACTIVITY)))
         {
-            clickedstep = intent.getIntExtra("a", 0);
-            recipe = intent.getParcelableExtra("b");
-            step = recipe.getSteps().get(clickedstep);
-            videoUrl = step.getVideoURL();
+            clickedstep = intent.getIntExtra(MAIN_ACTIVITY, 0);
+            recipe = intent.getParcelableExtra(RECIPE_ACTIVITY);
+            Step step = recipe.getSteps().get(clickedstep);
+            String videoUrl = step.getVideoURL();
             if (videoUrl.equals("")){
-                videoUrl=step.getThumbnailURL();
+                videoUrl = step.getThumbnailURL();
             }
             videoFragment.setUrl(videoUrl);
             videsc= step.getDescription();
-            Log.e("sam", "Video url is " + step.getVideoURL());
         }
 
         if (!videsc.isEmpty()){
-            desc.setText(videsc);
+            videoFragment.setDescription(videsc);
         }
         else {
-            desc.setText("No description available");
+            videoFragment.setDescription(getResources().getResourceName(R.string.descrerror));
         }
 
-        fragmentManager.beginTransaction().add(R.id.exo_framer,videoFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.exo_framer, videoFragment).commit();
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext() ,StepsActivity.class);
-                Log.e("sam", "Index is " + clickedstep);
                 clickedstep++;
                 if (clickedstep<recipe.getSteps().size()){
-                    intent.putExtra("a" ,clickedstep );
-                    intent.putExtra("b" ,recipe );
+                    intent.putExtra(MAIN_ACTIVITY ,clickedstep );
+                    intent.putExtra(RECIPE_ACTIVITY ,recipe );
                     startActivity(intent);
                 }
                 else {
@@ -75,11 +65,10 @@ public class StepsActivity extends AppCompatActivity  {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext() ,StepsActivity.class);
-                Log.e("sam", "Index is " + clickedstep);
                 if (clickedstep>0){
                     clickedstep--;
-                    intent.putExtra("a" ,clickedstep );
-                    intent.putExtra("b" ,recipe );
+                    intent.putExtra(MAIN_ACTIVITY,clickedstep );
+                    intent.putExtra(RECIPE_ACTIVITY ,recipe );
                     startActivity(intent);
                 }
                 else {
@@ -87,12 +76,5 @@ public class StepsActivity extends AppCompatActivity  {
                 }
             }
         });
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.e("sam" , "destroyed");
-        Log.e("sam" , "Is fragment destroyed? : " + getSupportFragmentManager().isDestroyed());
     }
 }

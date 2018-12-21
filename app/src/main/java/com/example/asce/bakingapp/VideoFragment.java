@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,19 +21,24 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 public class VideoFragment extends Fragment {
-
     public VideoFragment(){
     }
-    String url;
-    PlayerView playerView ;
-    SimpleExoPlayer player;
-    TextView missingcontent;
-
+    private String url;
+    private String description;
+    private PlayerView playerView ;
+    private SimpleExoPlayer player;
+    private TextView missingcontent,desc;
     public String getUrl() {
         return url;
     }
     public void setUrl(String url) {
         this.url = url;
+    }
+    public void setDescription(String desc) {
+        this.description = desc;
+    }
+    public String getDescription() {
+        return description;
     }
 
     @Override
@@ -50,8 +54,8 @@ public class VideoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_video, container, false);
         playerView = v. findViewById(R.id.frag_exo);
+        desc = v.findViewById(R.id.descrip_tv);
         missingcontent = v. findViewById(R.id.missing_content);
-        Log.e("sam" , "Oncreateview");
         return v;
     }
     public void initializeExoPlayer(String videoUrl) {
@@ -61,15 +65,15 @@ public class VideoFragment extends Fragment {
         playerView.setPlayer(player);
         Uri uri = Uri.parse(videoUrl);
         MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("bakingapp")).createMediaSource(uri);
-        //player.seekTo(8200);
         player.setPlayWhenReady(true);
         player.prepare(mediaSource, true, false);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
-        if (!getUrl().equals("")&& Util.SDK_INT>23)
+    public void onResume() {
+        super.onResume();
+        desc.setText(getDescription());
+        if (!getUrl().equals("") && Util.SDK_INT>23)
         {
             initializeExoPlayer(getUrl());
         }
@@ -79,20 +83,10 @@ public class VideoFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
     public void release() {
         if (player != null) {
             player.release();
             player = null;
-            Log.e("sam" , "PLayer is not null and s the player is released");
-        }
-        else {
-            Log.e("sam" , "Player is NULL NO release");
-
         }
     }
     @Override
@@ -104,15 +98,9 @@ public class VideoFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.e("sam" , "ondestroy for fragment");
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
-        if(Util.SDK_INT >23){
+        if(Util.SDK_INT <24){
             release();
         }
     }

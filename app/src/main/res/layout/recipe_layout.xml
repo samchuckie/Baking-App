@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/empty_tv"
-        android:text="No recipes available"
+        android:text="@string/no_recipes_available"
         android:textSize="20sp"
         android:background="@android:color/white"
         android:textColor="@android:color/black"

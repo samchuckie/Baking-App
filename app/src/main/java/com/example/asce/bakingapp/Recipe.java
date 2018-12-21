@@ -13,7 +13,7 @@ public class Recipe implements Parcelable {
     private Integer servings;
     private String image;
 
-    protected Recipe(Parcel in) {
+    private Recipe(Parcel in) {
         if (in.readByte() == 0) {
             id = null;
         } else {
@@ -91,7 +91,7 @@ public class Recipe implements Parcelable {
         this.ingredients = ingredients;
     }
 
-    public List<Step> getSteps() {
+    List<Step> getSteps() {
         return steps;
     }
 

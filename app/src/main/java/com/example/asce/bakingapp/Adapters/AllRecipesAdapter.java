@@ -17,14 +17,12 @@ public class AllRecipesAdapter extends RecyclerView.Adapter<AllRecipesAdapter.Vi
     private List<Recipe> recipes = null;
     private ItemClickInterface itemClickInterface;
     private Context context;
-    Drawable drawableleft;
+    private Drawable drawableleft;
 
     public AllRecipesAdapter(ItemClickInterface itemClickInterface, Context context) {
-        this.itemClickInterface=itemClickInterface;
-        this.context=context;
-
+        this.itemClickInterface = itemClickInterface;
+        this.context = context;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -65,24 +63,20 @@ public class AllRecipesAdapter extends RecyclerView.Adapter<AllRecipesAdapter.Vi
     public interface ItemClickInterface{
         void itemClick(Recipe recipe);
     }
-
     public void setRecipes(List<Recipe> recipes) {
         this.recipes = recipes;
         notifyDataSetChanged();
     }
-
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView sRecipe;
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             sRecipe = itemView.findViewById(R.id.recipe_item_rv);
             itemView.setOnClickListener(this);
         }
-
         @Override
         public void onClick(View v) {
              itemClickInterface.itemClick(recipes.get(getAdapterPosition()));
-
         }
     }
 }

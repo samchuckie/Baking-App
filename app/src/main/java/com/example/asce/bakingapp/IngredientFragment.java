@@ -16,23 +16,19 @@ import com.example.asce.bakingapp.Adapters.IngredientAdapter;
 import java.util.ArrayList;
 
 public class IngredientFragment extends Fragment {
-    RecyclerView recyclerView;
-    LinearLayoutManager linearLayoutManager;
-    RecyclerView.ItemDecoration decoration;
-    IngredientAdapter ingredientAdapter;
     private ArrayList<Ingredient> ingredientArrayList;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragement_ingredient, container, false);
-        // TODO CHANGE LAYOUT FOR THE RECYCLEVIEW
-        recyclerView = v.findViewById(R.id.ig_rv);
-        linearLayoutManager = new LinearLayoutManager(getContext());
+        // TODO CHANGE LAYOUT FOR THE RECYCLEVIEW OF THIS LAYOUT
+        RecyclerView recyclerView = v.findViewById(R.id.ig_rv);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        decoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
+        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
-        ingredientAdapter= new IngredientAdapter();
+        IngredientAdapter ingredientAdapter = new IngredientAdapter();
         recyclerView.setAdapter(ingredientAdapter);
         ingredientAdapter.setIngredients(ingredientArrayList);
         return v;

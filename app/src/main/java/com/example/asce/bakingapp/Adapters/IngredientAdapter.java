@@ -25,9 +25,9 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.ing_no.setText(String.valueOf(position+1));
-        holder.quantity.setText("Quantity: " + String.valueOf(ingredients.get(position).getQuantity()));
-        holder.measure.setText("Measure: " + ingredients.get(position).getMeasure());
-        holder.ingredient_tv.setText("Ingredient: " + ingredients.get(position).getIngredient());
+        holder.quantity.setText(R.string.quantity + String.valueOf(ingredients.get(position).getQuantity()));
+        holder.measure.setText(R.string.measure + ingredients.get(position).getMeasure());
+        holder.ingredient_tv.setText(R.string.ingredient + ingredients.get(position).getIngredient());
     }
 
     @Override
@@ -43,9 +43,9 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.Vi
         notifyDataSetChanged();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder {
         TextView ing_no,quantity,measure,ingredient_tv;
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             ing_no = itemView.findViewById(R.id.ing_no);
             quantity = itemView.findViewById(R.id.quantity);

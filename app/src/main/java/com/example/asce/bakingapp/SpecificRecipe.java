@@ -12,68 +12,93 @@ import android.widget.TextView;
 import com.example.asce.bakingapp.Adapters.StepsAdapter;
 import java.util.ArrayList;
 
+import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEY;
+import static com.example.asce.bakingapp.Constant.Const.INGRIDIENT;
+import static com.example.asce.bakingapp.Constant.Const.MAIN_ACTIVITY;
+import static com.example.asce.bakingapp.Constant.Const.RECIPE_ACTIVITY;
+import static com.example.asce.bakingapp.Constant.Const.VIDEO;
+
 public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.StepItemClicked {
-    RecyclerView recyclerView;
-    StepsAdapter stepsAdapter;
-    LinearLayoutManager linearLayoutManager;
-    Recipe recipe;
-    TextView ingredients;
-    Boolean landscape=false;
-    FragmentManager fragmentManager;
-    VideoFragment videoFragment;
-    String checker = null ;
-    TextView descrip;
-    String url;
-    IngredientFragment ingredientFragment;
+    private Recipe recipe;
+    private Boolean landscape=false;
+    private FragmentManager fragmentManager;
+    private VideoFragment videoFragment;
+    private String checker = null ;
+    private IngredientFragment ingredientFragment;
+    ArrayList<Ingredient> ingredient =null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_specific_recipe);
-        recyclerView = findViewById(R.id.steps_rv);
-        stepsAdapter = new StepsAdapter(this);
-        linearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView recyclerView = findViewById(R.id.steps_rv);
+        StepsAdapter stepsAdapter = new StepsAdapter(this);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setAdapter(stepsAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
         fragmentManager= getSupportFragmentManager();
+        // TODO Save the state
         if (findViewById(R.id.recipe_frame)!=null)
         {
             landscape=true;
             fragmentManager = getSupportFragmentManager();
             videoFragment = new VideoFragment();
-            descrip =findViewById(R.id.descrip_tv);
         }
         Intent intent = getIntent();
-        if ((intent!=null) && intent.hasExtra("a")){
-            recipe= intent.getParcelableExtra("a");
+        if ((intent!=null) && intent.hasExtra(MAIN_ACTIVITY)){
+            recipe= intent.getParcelableExtra(MAIN_ACTIVITY);
+            ingredient = new ArrayList<>(recipe.getIngredients());
+
         }
         stepsAdapter.setSteps(recipe.getSteps());
-        ingredients =findViewById(R.id.ing);
+        if (savedInstanceState!=null){
+            String key =savedInstanceState.getString(BUNDLE_KEY);
+            if (key!=null) {
+                switch (key) {
+                    case VIDEO:
+
+                        break;
+                    case INGRIDIENT:
+                        setIngrideintFragment(ingredient);
+                        //startIngFragment();
+                        break;
+                }
+            }
+        }
+        TextView ingredients = findViewById(R.id.ing);
         ingredients.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Ingredient> ingredient = new ArrayList<>(recipe.getIngredients());
                 if (landscape) {
-                    ingredientFragment = new IngredientFragment();
-                    ingredientFragment.setIngredient(ingredient);
+                    setIngrideintFragment(ingredient);
                     if (checker != null) {
-                        fragmentManager.beginTransaction().replace(R.id.recipe_frame, ingredientFragment).commit();
+                        startIngFragment();
                     }
                     else {
-                        checker = "added";
+                        checker = INGRIDIENT;
                         fragmentManager.beginTransaction().add(R.id.recipe_frame, ingredientFragment).commit();
+                        Log.e("sam" , "ingredients fragment added");
+
                     }
                 } else {
                     Intent ingredientsIntent = new Intent(getApplicationContext(), IngredientsActivity.class);
-                    ingredientsIntent.putParcelableArrayListExtra("ing", ingredient);
+                    ingredientsIntent.putParcelableArrayListExtra(getResources().getResourceName(R.string.ingredients), ingredient);
                     startActivity(ingredientsIntent);
                 }
             }
         });
     }
+    private void setIngrideintFragment(ArrayList<Ingredient> ingredient){
+        ingredientFragment = new IngredientFragment();
+        ingredientFragment.setIngredient(ingredient);
+    }
+    private void startIngFragment(){
+        fragmentManager.beginTransaction().replace(R.id.recipe_frame, this.ingredientFragment).commit();
+        Log.e("sam" , "ingredients fragment replaced");
+    }
     @Override
     public void stepclicked(int step) {
         if( landscape){
-            url = recipe.getSteps().get(step).getVideoURL();
+            String url = recipe.getSteps().get(step).getVideoURL();
             if (url.equals("")){
               url = recipe.getSteps().get(step).getThumbnailURL();
             }
@@ -82,20 +107,33 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
             if (checker != null) {
                 videoFragment= new VideoFragment();
                 videoFragment.setUrl(url);
+                videoFragment.setDescription(desc);
                 fragmentManager.beginTransaction().replace(R.id.recipe_frame, videoFragment).commit();
             } else {
-                Log.e("sam", "checker is null");
-                checker = "added";
+                checker = VIDEO;
                 fragmentManager.beginTransaction().add(R.id.recipe_frame, videoFragment).commit();
-
             }
-            descrip.setText(desc);
         }
         else {
             Intent intent = new Intent(this ,StepsActivity.class);
-            intent.putExtra("a" ,step );
-            intent.putExtra("b" ,recipe );
+            intent.putExtra(MAIN_ACTIVITY ,step );
+            intent.putExtra(RECIPE_ACTIVITY ,recipe );
             startActivity(intent);
+        }
+    }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (landscape && checker!=null) {
+            switch (checker) {
+                case VIDEO :
+                outState.putString(BUNDLE_KEY, VIDEO);
+                break;
+                case INGRIDIENT :
+                    outState.putString(BUNDLE_KEY, INGRIDIENT);
+                    Log.e("sam" , "Ingerdeint");
+                    break;
+            }
         }
     }
 }
