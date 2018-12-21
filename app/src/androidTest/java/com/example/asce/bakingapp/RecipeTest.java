@@ -43,7 +43,7 @@ public class RecipeTest {
     public void networkTest(){
         // I did testing only on small phone oriented and not tablet
         // ondata does not work as recycleview is not an adpaterview anymore
-        onView(withId(R.id.allitems)).perform(click());
+        onView(withId(R.id.all_items)).perform(click());
         onView(withId(R.id.ing)).check(matches(withText(R.string.ingredients)));
 
         // Check that the intent has an extra with the key.
