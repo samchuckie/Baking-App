@@ -50,20 +50,20 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
 
         }
         stepsAdapter.setSteps(recipe.getSteps());
-        if (savedInstanceState!=null){
-            String key =savedInstanceState.getString(BUNDLE_KEY);
-            if (key!=null) {
-                switch (key) {
-                    case VIDEO:
-
-                        break;
-                    case INGRIDIENT:
-                        setIngrideintFragment(ingredient);
-                        //startIngFragment();
-                        break;
-                }
-            }
-        }
+//        if (savedInstanceState!=null){
+//            String key =savedInstanceState.getString(BUNDLE_KEY);
+//            if (key!=null) {
+//                switch (key) {
+//                    case VIDEO:
+//
+//                        break;
+//                    case INGRIDIENT:
+//                        setIngrideintFragment(ingredient);
+//                        startIngFragment();
+//                        break;
+//                }
+//            }
+//        }
         TextView ingredients = findViewById(R.id.ing);
         ingredients.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +124,7 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.e("sam" , "onsave for activity");
         if (landscape && checker!=null) {
             switch (checker) {
                 case VIDEO :
