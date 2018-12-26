@@ -16,11 +16,13 @@ public class IngredientsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if ((intent!=null) && intent.hasExtra(getResources().getResourceName(R.string.ingredients))){
             ingredientArrayList= intent.getParcelableArrayListExtra(getResources().getResourceName(R.string.ingredients));
+            // TODO ADAPTERRRRR
         }
-        IngredientFragment ingredientFragment = new IngredientFragment();
-        FragmentManager fragmentManager= getSupportFragmentManager();
-        ingredientFragment.setIngredient(ingredientArrayList);
-        fragmentManager.beginTransaction().add(R.id.ingredient_framelayout, ingredientFragment).commit();
-
+        if(savedInstanceState==null){
+            IngredientFragment ingredientFragment = new IngredientFragment();
+            FragmentManager fragmentManager= getSupportFragmentManager();
+            ingredientFragment.setIngredient(ingredientArrayList);
+            fragmentManager.beginTransaction().add(R.id.ingredient_framelayout, ingredientFragment).commit();
+        }
     }
 }

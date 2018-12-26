@@ -1,5 +1,6 @@
 package com.example.asce.bakingapp;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,10 +23,14 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEY;
+import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYP;
+import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYU;
+import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYW;
 
 public class VideoFragment extends Fragment {
     private long currentPosition =0;
     private int currentWindowIndex=0;
+    private boolean playwhenready = true;
 
     public VideoFragment(){
     }
@@ -52,7 +57,7 @@ public class VideoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // setRetainInstance to true onCreate protect from destroy and recreate and
         // retain the current instance of the fragment when the activity is recreated.
-        setRetainInstance(true);
+       // setRetainInstance(true);
     }
 
     @Nullable
@@ -64,8 +69,21 @@ public class VideoFragment extends Fragment {
         missingcontent = v. findViewById(R.id.missing_content);
         if(savedInstanceState!=null)
         {
-            currentWindowIndex =savedInstanceState.getInt(BUNDLE_KEY);
-            currentPosition =savedInstanceState.getLong(BUNDLE_KEY);
+            currentWindowIndex =savedInstanceState.getInt(BUNDLE_KEYW);
+            currentPosition =savedInstanceState.getLong(BUNDLE_KEYP);
+            playwhenready = savedInstanceState.getBoolean(BUNDLE_KEY);
+            url = savedInstanceState.getString(BUNDLE_KEYU);
+        }
+        Log.e("sam", "oncreate view");
+        desc.setText(getDescription());
+        // TODO get utl is non on screen unlock
+        if (!getUrl().equals("") && Util.SDK_INT>23)
+        {
+            initializeExoPlayer(getUrl());
+        }
+        else {
+            playerView.setVisibility(View.GONE);
+            missingcontent.setVisibility(View.VISIBLE);
         }
         return v;
     }
@@ -75,40 +93,39 @@ public class VideoFragment extends Fragment {
                 new DefaultTrackSelector(), new DefaultLoadControl());
         playerView.setPlayer(player);
         Uri uri = Uri.parse(videoUrl);
-        player.setPlayWhenReady(true);
+        player.setPlayWhenReady(playwhenready);
         player.seekTo(currentWindowIndex ,currentPosition);
+        Log.e("sam" , "position of new:" + currentPosition);
+        Log.e("sam" , "window of new:" + currentWindowIndex);
         MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("bakingapp")).createMediaSource(uri);
-        player.prepare(mediaSource, false, true);
-    }
+        player.prepare(mediaSource, false, false);
+        Log.e("sam", "initialized");
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.e("sam" ,"d");
     }
-
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-            Log.e("sam" ,"window" + currentWindowIndex);
-            Log.e("sam" ,"position" + currentPosition);
+        currentPosition = player.getCurrentPosition();
+        currentWindowIndex = player.getCurrentWindowIndex();
+        playwhenready= player.getPlayWhenReady();
+        outState.putInt(BUNDLE_KEYW, currentWindowIndex);
+        outState.putLong(BUNDLE_KEYP , currentPosition);
+        outState.putBoolean(BUNDLE_KEY , playwhenready);
+        outState.putString(BUNDLE_KEYU ,getUrl());
+        Log.e("sam" , "positionn:" + currentPosition);
+        Log.e("sam" , "windoww:" + currentWindowIndex);
+        Log.e("sam" , "PLAYWHENREADYy:" +playwhenready );
+    }
 
-        outState.putInt(BUNDLE_KEY, currentWindowIndex);
-        outState.putLong(BUNDLE_KEY , currentPosition);
+    @Override
+    public void onStart() {
+        super.onStart();
+        Log.e("sam" , "onstart for fragment");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        desc.setText(getDescription());
-        if (!getUrl().equals("") && Util.SDK_INT>23)
-        {
-            initializeExoPlayer(getUrl());
-        }
-        else {
-            playerView.setVisibility(View.GONE);
-            missingcontent.setVisibility(View.VISIBLE);
-        }
     }
 
     public void release() {
@@ -120,19 +137,23 @@ public class VideoFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        currentPosition = player.getCurrentPosition();
-        currentWindowIndex = player.getCurrentWindowIndex();
+        if (player!=null) {
+
+            Log.e("sam" , "position:" + currentPosition);
+            Log.e("sam" , "window:" + currentWindowIndex);
+            Log.e("sam" , "PLAYWHENREADY:" +playwhenready );
+
+        }
         if(Util.SDK_INT >23){
             release();
-            Log.e("sam" ,"stop");
+            Log.e("sam" , "released" );
         }
     }
     @Override
     public void onPause() {
         super.onPause();
-        if(Util.SDK_INT <24){
+        if(Util.SDK_INT <=23){
             release();
-            Log.e("sam" ,"pause");
         }
     }
 }

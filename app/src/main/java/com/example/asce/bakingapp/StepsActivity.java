@@ -25,27 +25,26 @@ public class StepsActivity extends AppCompatActivity  {
         VideoFragment videoFragment = new VideoFragment();
         FragmentManager fragmentManager= getSupportFragmentManager();
         Intent intent = getIntent();
-        if((intent!=null)&&(intent.hasExtra(MAIN_ACTIVITY))&&(intent.hasExtra(RECIPE_ACTIVITY)))
-        {
+        if((intent!=null)&&(intent.hasExtra(MAIN_ACTIVITY))&&(intent.hasExtra(RECIPE_ACTIVITY) && savedInstanceState==null)) {
             clickedstep = intent.getIntExtra(MAIN_ACTIVITY, 0);
             recipe = intent.getParcelableExtra(RECIPE_ACTIVITY);
             Step step = recipe.getSteps().get(clickedstep);
             String videoUrl = step.getVideoURL();
-            if (videoUrl.equals("")){
+            if (videoUrl.equals("")) {
                 videoUrl = step.getThumbnailURL();
             }
             videoFragment.setUrl(videoUrl);
-            videsc= step.getDescription();
-        }
+            videsc = step.getDescription();
 
-        if (!videsc.isEmpty()){
-            videoFragment.setDescription(videsc);
-        }
-        else {
-            videoFragment.setDescription(getResources().getResourceName(R.string.descrerror));
-        }
+            if (!videsc.isEmpty()) {
+                videoFragment.setDescription(videsc);
+            } else {
+                videoFragment.setDescription(getResources().getResourceName(R.string.descrerror));
+            }
 
-        fragmentManager.beginTransaction().add(R.id.exo_framer, videoFragment).commit();
+
+            fragmentManager.beginTransaction().add(R.id.exo_framer, videoFragment).commit();
+        }
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

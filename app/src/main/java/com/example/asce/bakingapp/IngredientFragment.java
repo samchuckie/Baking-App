@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,21 @@ import com.example.asce.bakingapp.Adapters.IngredientAdapter;
 
 import java.util.ArrayList;
 
+import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEY;
+
 public class IngredientFragment extends Fragment {
     private ArrayList<Ingredient> ingredientArrayList;
+    IngredientAdapter ingredientAdapter;
+    public ArrayList<Ingredient> getIngredientArrayList() {
+        return ingredientArrayList;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ingredientAdapter = new IngredientAdapter();
+
+    }
 
     @Nullable
     @Override
@@ -28,12 +42,23 @@ public class IngredientFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
-        IngredientAdapter ingredientAdapter = new IngredientAdapter();
+        //TODO CHECK ADAPTER
         recyclerView.setAdapter(ingredientAdapter);
+        if(savedInstanceState!=null){
+            ingredientArrayList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY);
+        }
         ingredientAdapter.setIngredients(ingredientArrayList);
         return v;
     }
     public void setIngredient(ArrayList<Ingredient> ingredientArrayList) {
         this.ingredientArrayList =ingredientArrayList;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(BUNDLE_KEY , getIngredientArrayList());
+        Log.e("sam" , "ingredients is " + getIngredientArrayList().size());
+
     }
 }

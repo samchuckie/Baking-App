@@ -26,7 +26,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/descrip_tv"
-        android:text="dfhdfhdfhfdjh"
         tools:text="A simple desc"
         android:textSize="24sp"
         >

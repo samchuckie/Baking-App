@@ -6,4 +6,8 @@ public class Const {
     public static final String VIDEO = "video";
     public static final String INGRIDIENT = "ing";
     public static final String BUNDLE_KEY = "bundle";
+    public static final String BUNDLE_KEYP = "bundlep";
+    public static final String BUNDLE_KEYW = "bundlew";
+    public static final String BUNDLE_KEYU = "bundleu";
+    public static final String ITEM = "item";
 }

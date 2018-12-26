@@ -25,13 +25,11 @@ public class MainActivity extends AppCompatActivity implements AllRecipesAdapter
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // TODO : CHECK INTERNET CONNCETIVITY FIRST
         RecyclerView allRecipes;
         if(findViewById(R.id.all_items) !=null){
             allRecipes = findViewById(R.id.all_items);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
             allRecipes.setLayoutManager(linearLayoutManager);
-            // todo add touch selector
         }
         else {
             allRecipes = findViewById(R.id.allitems_land);

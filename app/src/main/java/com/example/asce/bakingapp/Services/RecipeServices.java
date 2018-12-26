@@ -2,6 +2,7 @@ package com.example.asce.bakingapp.Services;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.example.asce.bakingapp.Ingredient;
@@ -36,6 +37,8 @@ class ListFactory implements RemoteViewsService.RemoteViewsFactory{
     public void onCreate() {
         action = mintent.getAction();
         RecipesInt recipesInt = RecipeRetro.getinsance().create(RecipesInt.class);
+        Log.e("sam" , "Second update" + action);
+
         Call<List<Recipe>> recipesCall = recipesInt.getall();
         recipesCall.enqueue(new Callback<List<Recipe>>() {
             @Override

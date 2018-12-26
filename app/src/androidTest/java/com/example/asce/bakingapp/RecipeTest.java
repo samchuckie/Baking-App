@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -21,6 +23,7 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.isInte
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.example.asce.bakingapp.Constant.Const.MAIN_ACTIVITY;
+import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -40,15 +43,18 @@ public class RecipeTest {
 
     }
     @Test
-    public void networkTest(){
+    public void intentTest(){
         // I did testing only on small phone oriented and not tablet
         // ondata does not work as recycleview is not an adpaterview anymore
         onView(withId(R.id.all_items)).perform(click());
-        onView(withId(R.id.ing)).check(matches(withText(R.string.ingredients)));
-
         // Check that the intent has an extra with the key.
         intended(hasExtraWithKey(MAIN_ACTIVITY));
-
+    }
+    @Test
+    public void ingredientTest(){
+        onView(withId(R.id.all_items)).perform(click());
+        onView(withId(R.id.ing)).check(matches(withText(R.string.ingredients)));
+        onView(withId(R.id.ing)).perform(click());
     }
     @After
     public void deregistration(){
