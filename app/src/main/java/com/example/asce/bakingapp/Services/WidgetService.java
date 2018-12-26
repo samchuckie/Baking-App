@@ -24,11 +24,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.asce.bakingapp.Constant.Const.APPWIDGET_ID;
 import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEY;
 import static com.example.asce.bakingapp.Constant.Const.ITEM;
 
 public class WidgetService extends RemoteViewsService {
-    private String recipename;
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
@@ -38,8 +38,6 @@ public class WidgetService extends RemoteViewsService {
         private Context mcontext;
         private Intent mintent;
         private List<Recipe> lrecipe;
-        private String action;
-        ArrayList<Ingredient> ingredient =null;
         public ListsFactory(Context applicationContext, Intent intent) {
             mcontext = applicationContext;
             mintent=intent;
@@ -47,7 +45,6 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public void onCreate() {
             RecipesInt recipesInt = RecipeRetro.getinsance().create(RecipesInt.class);
-            action = mintent.getAction();
             Call<List<Recipe>> recipesCall = recipesInt.getall();
             recipesCall.enqueue(new Callback<List<Recipe>>() {
                 @Override
@@ -88,14 +85,16 @@ public class WidgetService extends RemoteViewsService {
         @Override
         public RemoteViews getViewAt(int position) {
             RemoteViews remoteViews = new RemoteViews(mcontext.getPackageName() ,R.layout.widgetlist_layout);
-            recipename= lrecipe.get(position).getName();
-            remoteViews.setTextViewText(R.id.widgetlist_item ,recipename);
-            Bundle extras = new Bundle();
-            extras.putInt(ITEM, position);
-            Intent fillInIntent = new Intent(mcontext,Brownies.class);
-            fillInIntent.setAction("Brownies");
-            fillInIntent.putExtras(extras);
+            String recipename = lrecipe.get(position).getName();
+            remoteViews.setTextViewText(R.id.widgetlist_item , recipename);
+            Intent fillInIntent = new Intent();
+            fillInIntent.putExtra(ITEM, recipename);
             remoteViews.setOnClickFillInIntent(R.id.widgetlist_item, fillInIntent);
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             return remoteViews;
         }
 

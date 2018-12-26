@@ -23,16 +23,6 @@
         <activity android:name=".SpecificRecipe" />
         <activity android:name=".IngredientsActivity" />
         <activity android:name=".StepsActivity" />
-
-        <receiver android:name=".Widget.NutellaPie">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/baking_widget_info" />
-        </receiver>
         <receiver android:name=".Widget.Brownies">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -46,40 +36,10 @@
         <service
             android:name=".Services.RecipeServices"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-
-        <receiver android:name=".Widget.YellowCake">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/yellow_cake_info" />
-        </receiver>
-        <receiver android:name=".Widget.Cheesecake">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/cheesecake_info" />
-        </receiver>
-        <receiver android:name=".BakingApp">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/baking_app_info" />
-        </receiver>
         <service android:name=".Services.WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS"
             >
-
         </service>
-        <service android:name=".Services.HandlerService" />
     </application>
 
 </manifest>

@@ -10,4 +10,5 @@ public class Const {
     public static final String BUNDLE_KEYW = "bundlew";
     public static final String BUNDLE_KEYU = "bundleu";
     public static final String ITEM = "item";
+    public static final String APPWIDGET_ID = "appwidget_id";
 }

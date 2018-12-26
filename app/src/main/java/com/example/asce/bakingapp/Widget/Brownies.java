@@ -1,5 +1,6 @@
 package com.example.asce.bakingapp.Widget;
 
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -15,11 +16,15 @@ import com.example.asce.bakingapp.Services.WidgetService;
 
 import java.util.List;
 
+import static com.example.asce.bakingapp.Constant.Const.APPWIDGET_ID;
+import static com.example.asce.bakingapp.Constant.Const.ITEM;
+
 /**
  * Implementation of App Widget functionality.
  */
 public class Brownies extends AppWidgetProvider {
     private static final String RECIPENAME ="Brownies";
+    private static int appwidgid;
     //TODO CHANGING THIS CLASS
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
@@ -30,7 +35,17 @@ public class Brownies extends AppWidgetProvider {
         Log.e("sam" ,"onfirst update");
         views.setRemoteAdapter(R.id.ingredient_list , data);
         views.setEmptyView(R.id.ingredient_list , R.id.empty_tv);
+        Intent clickedintent =new Intent(context ,Brownies.class);
+        clickedintent.setAction("Brownies");
+        clickedintent.putExtra(APPWIDGET_ID ,appWidgetId);
+        appwidgid=appWidgetId;
+        Log.e("sam " , "Appwidget id is " + appWidgetId);
+        Log.e("sam " , "Appwidget static id is " + appwidgid);
+        PendingIntent clickedPendingIntent = PendingIntent.getBroadcast(context,
+                0, clickedintent, 0);
+        views.setPendingIntentTemplate(R.id.ingredient_list, clickedPendingIntent);
         appWidgetManager.updateAppWidget(appWidgetId, views);
+
     }
 
   
@@ -40,32 +55,30 @@ public class Brownies extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-      
-    }
-    public static void updateList(Context context, AppWidgetManager appWidgetManager, String ingredients, int[] appWidgetIds) {
-        for (int appWidgetId : appWidgetIds) {
-            //updateAppWidget(context, appWidgetManager,ingredients, appWidgetId);
-        }
     }
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, String ingredients, int appWidgetId) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_layout);
-        views.setTextViewText(R.id.recipe_title , RECIPENAME);
-        Intent data = new Intent(context,WidgetService.class) ;
-        data.setAction(RECIPENAME);
-        Log.e("sam" ,"second update is called" + ingredients);
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-
-    }
-
+//    static void updateAppWidgets(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+//        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_layout);
+//        Intent data = new Intent(context,RecipeServices.class) ;
+//        data.setAction(intent.getStringExtra(ITEM));
+//        Log.e("sam " , "AppwidgetSS id is " + intent.getIntExtra(APPWIDGET_ID,0));
+//        Log.e("sam " , "AppwidgetSS action is " + intent.getAction());
+//        views.setRemoteAdapter(R.id.ingredient_list , data);
+//        views.setEmptyView(R.id.ingredient_list , R.id.empty_tv);
+//        appWidgetManager.updateAppWidget(appWidgetId, views);
+//    }
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals("Brownies")){
-            Log.e("sam" ,"broww");
+        if (("Brownies").equals(intent.getAction())){
+            RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.recipe_layout);
+            Intent data = new Intent(context,RecipeServices.class) ;
+            data.setAction(intent.getStringExtra(ITEM));
+            Log.e("sam " , "AppwidgetSS id is " + intent.getIntExtra(APPWIDGET_ID,appwidgid));
+            Log.e("sam " , "AppwidgetSS action is " + intent.getAction());
+            views.setRemoteAdapter(R.id.ingredient_list , data);
+            views.setEmptyView(R.id.ingredient_list , R.id.empty_tv);
+            AppWidgetManager.getInstance(context).updateAppWidget(intent.getIntExtra(APPWIDGET_ID,appwidgid), views);
 
-        }
-        else {
-            Log.e("sam" ,"others");
         }
         super.onReceive(context, intent);
     }
