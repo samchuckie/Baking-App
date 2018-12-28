@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEY;
 
 public class IngredientFragment extends Fragment {
     private ArrayList<Ingredient> ingredientArrayList;
-    IngredientAdapter ingredientAdapter;
+    private IngredientAdapter ingredientAdapter;
     public ArrayList<Ingredient> getIngredientArrayList() {
         return ingredientArrayList;
     }
@@ -57,7 +56,6 @@ public class IngredientFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList(BUNDLE_KEY , getIngredientArrayList());
-        Log.e("sam" , "ingredients is " + getIngredientArrayList().size());
 
     }
 }

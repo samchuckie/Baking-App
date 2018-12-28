@@ -1,31 +1,18 @@
 package com.example.asce.bakingapp.Services;
 
-import android.app.PendingIntent;
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
-import com.example.asce.bakingapp.Ingredient;
 import com.example.asce.bakingapp.R;
 import com.example.asce.bakingapp.Recipe;
 import com.example.asce.bakingapp.Retro.RecipeRetro;
 import com.example.asce.bakingapp.Retro.RecipesInt;
-import com.example.asce.bakingapp.Widget.Brownies;
-
-import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.example.asce.bakingapp.Constant.Const.APPWIDGET_ID;
-import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEY;
 import static com.example.asce.bakingapp.Constant.Const.ITEM;
 
 public class WidgetService extends RemoteViewsService {
@@ -38,7 +25,7 @@ public class WidgetService extends RemoteViewsService {
         private Context mcontext;
         private Intent mintent;
         private List<Recipe> lrecipe;
-        public ListsFactory(Context applicationContext, Intent intent) {
+        ListsFactory(Context applicationContext, Intent intent) {
             mcontext = applicationContext;
             mintent=intent;
         }

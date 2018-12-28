@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.widget.RemoteViews;
 import com.example.asce.bakingapp.R;
 import com.example.asce.bakingapp.Services.RecipeServices;
@@ -25,7 +24,6 @@ public class Brownies extends AppWidgetProvider {
        // views.setTextViewText(R.id.recipe_title , RECIPENAME);
         Intent data = new Intent(context,WidgetService.class) ;
         data.setAction(RECIPENAME);
-        Log.e("sam" ,"onfirst update");
         views.setRemoteAdapter(R.id.ingredient_list , data);
         views.setEmptyView(R.id.ingredient_list , R.id.empty_tv);
         Intent clickedintent =new Intent(context ,Brownies.class);
@@ -55,7 +53,6 @@ public class Brownies extends AppWidgetProvider {
             views.setRemoteAdapter(R.id.ingredient_list , data);
             views.setEmptyView(R.id.ingredient_list , R.id.empty_tv);
             AppWidgetManager.getInstance(context).updateAppWidget(intent.getIntExtra(APPWIDGET_ID,appwidgid), views);
-
         }
         super.onReceive(context, intent);
     }

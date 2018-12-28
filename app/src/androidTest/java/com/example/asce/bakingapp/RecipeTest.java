@@ -11,8 +11,6 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -23,7 +21,6 @@ import static android.support.test.espresso.intent.matcher.IntentMatchers.isInte
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.example.asce.bakingapp.Constant.Const.MAIN_ACTIVITY;
-import static org.hamcrest.CoreMatchers.anything;
 import static org.hamcrest.CoreMatchers.not;
 
 @RunWith(AndroidJUnit4.class)
@@ -50,7 +47,7 @@ public class RecipeTest {
         intended(hasExtraWithKey(MAIN_ACTIVITY));
     }
     @Test
-    public void intentTestForLandscape() throws InterruptedException {
+    public void TestForLandscape() throws InterruptedException {
         // FOR LANDSCAPE MODE OR TABLETS
         onView(withId(R.id.allitems_land)).perform(click());
           }
