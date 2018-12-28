@@ -44,14 +44,19 @@ public class RecipeTest {
     }
     @Test
     public void intentTest(){
-        // I did testing only on small phone oriented and not tablet
-        // ondata does not work as recycleview is not an adpaterview anymore
+        // FOR PORTRAIT MODE
         onView(withId(R.id.all_items)).perform(click());
         // Check that the intent has an extra with the key.
         intended(hasExtraWithKey(MAIN_ACTIVITY));
     }
     @Test
+    public void intentTestForLandscape() throws InterruptedException {
+        // FOR LANDSCAPE MODE OR TABLETS
+        onView(withId(R.id.allitems_land)).perform(click());
+          }
+    @Test
     public void ingredientTest(){
+        // FOR PORTRAIT MODE
         onView(withId(R.id.all_items)).perform(click());
         onView(withId(R.id.ing)).check(matches(withText(R.string.ingredients)));
         onView(withId(R.id.ing)).perform(click());

@@ -16,7 +16,6 @@ public class IngredientsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if ((intent!=null) && intent.hasExtra(getResources().getResourceName(R.string.ingredients))){
             ingredientArrayList= intent.getParcelableArrayListExtra(getResources().getResourceName(R.string.ingredients));
-            // TODO ADAPTERRRRR
         }
         if(savedInstanceState==null){
             IngredientFragment ingredientFragment = new IngredientFragment();

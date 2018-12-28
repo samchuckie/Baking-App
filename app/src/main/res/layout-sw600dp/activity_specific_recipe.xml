@@ -20,10 +20,17 @@
             android:id="@+id/ing"
             android:paddingBottom="16dp"
             />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:id="@+id/Ingredient_frame"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:id="@+id/steps_rv"
             >
 

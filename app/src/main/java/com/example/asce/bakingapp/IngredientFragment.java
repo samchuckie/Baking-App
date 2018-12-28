@@ -42,7 +42,6 @@ public class IngredientFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         RecyclerView.ItemDecoration decoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(decoration);
-        //TODO CHECK ADAPTER
         recyclerView.setAdapter(ingredientAdapter);
         if(savedInstanceState!=null){
             ingredientArrayList = savedInstanceState.getParcelableArrayList(BUNDLE_KEY);

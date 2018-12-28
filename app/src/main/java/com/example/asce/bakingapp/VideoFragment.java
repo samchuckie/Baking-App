@@ -1,6 +1,5 @@
 package com.example.asce.bakingapp;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -23,6 +22,7 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 
 import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEY;
+import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYD;
 import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYP;
 import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYU;
 import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYW;
@@ -34,11 +34,10 @@ public class VideoFragment extends Fragment {
 
     public VideoFragment(){
     }
-    private String url;
+    private String url=null;
     private String description;
     private PlayerView playerView ;
     private SimpleExoPlayer player;
-    private TextView missingcontent,desc;
     public String getUrl() {
         return url;
     }
@@ -57,7 +56,7 @@ public class VideoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // setRetainInstance to true onCreate protect from destroy and recreate and
         // retain the current instance of the fragment when the activity is recreated.
-       // setRetainInstance(true);
+       //setRetainInstance(true);
     }
 
     @Nullable
@@ -65,21 +64,24 @@ public class VideoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_video, container, false);
         playerView = v. findViewById(R.id.frag_exo);
-        desc = v.findViewById(R.id.descrip_tv);
-        missingcontent = v. findViewById(R.id.missing_content);
+        TextView desc = v.findViewById(R.id.descrip_tv);
+        TextView missingcontent = v.findViewById(R.id.missing_content);
         if(savedInstanceState!=null)
         {
             currentWindowIndex =savedInstanceState.getInt(BUNDLE_KEYW);
             currentPosition =savedInstanceState.getLong(BUNDLE_KEYP);
             playwhenready = savedInstanceState.getBoolean(BUNDLE_KEY);
-            url = savedInstanceState.getString(BUNDLE_KEYU);
+            setUrl(savedInstanceState.getString(BUNDLE_KEYU));
+            setDescription(savedInstanceState.getString(BUNDLE_KEYD));
+            Log.e("sam" , "url is " + url);
         }
         Log.e("sam", "oncreate view");
         desc.setText(getDescription());
         // TODO get utl is non on screen unlock
-        if (!getUrl().equals("") && Util.SDK_INT>23)
+        if (getUrl()!=null && Util.SDK_INT>23)
         {
             initializeExoPlayer(getUrl());
+            Log.e("sam" , "url of first   is " + url);
         }
         else {
             playerView.setVisibility(View.GONE);
@@ -105,30 +107,26 @@ public class VideoFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        currentPosition = player.getCurrentPosition();
-        currentWindowIndex = player.getCurrentWindowIndex();
-        playwhenready= player.getPlayWhenReady();
-        outState.putInt(BUNDLE_KEYW, currentWindowIndex);
-        outState.putLong(BUNDLE_KEYP , currentPosition);
-        outState.putBoolean(BUNDLE_KEY , playwhenready);
-        outState.putString(BUNDLE_KEYU ,getUrl());
-        Log.e("sam" , "positionn:" + currentPosition);
-        Log.e("sam" , "windoww:" + currentWindowIndex);
-        Log.e("sam" , "PLAYWHENREADYy:" +playwhenready );
+        // I have this method as my saveOninstance is called after onStop in tablets thus i have to repeat it
+        if(player!=null){
+            getConfig();
+        }
+        if(getUrl()!=null) {
+            outState.putInt(BUNDLE_KEYW, currentWindowIndex);
+            outState.putLong(BUNDLE_KEYP, currentPosition);
+            outState.putBoolean(BUNDLE_KEY, playwhenready);
+            outState.putString(BUNDLE_KEYU, getUrl());
+            outState.putString(BUNDLE_KEYD, getDescription());
+            Log.e("sam" , "saved state");
+        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        Log.e("sam" , "onstart for fragment");
+        Log.e("sam" , "onstart for fragment video");
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    public void release() {
+        public void release() {
         if (player != null) {
             player.release();
             player = null;
@@ -136,24 +134,43 @@ public class VideoFragment extends Fragment {
     }
     @Override
     public void onStop() {
-        super.onStop();
-        if (player!=null) {
-
-            Log.e("sam" , "position:" + currentPosition);
-            Log.e("sam" , "window:" + currentWindowIndex);
-            Log.e("sam" , "PLAYWHENREADY:" +playwhenready );
-
-        }
-        if(Util.SDK_INT >23){
+        if (player!=null &&Util.SDK_INT >23){
+            getConfig();
             release();
+            Log.e("sam", "p:" + currentPosition);
+            Log.e("sam", "w:" + currentWindowIndex);
+            Log.e("sam", "pla:" + playwhenready);
+            Log.e("sam", "u:" + getUrl());
             Log.e("sam" , "released" );
         }
+        super.onStop();
     }
+
+    private void getConfig() {
+        currentPosition = player.getCurrentPosition();
+        currentWindowIndex = player.getCurrentWindowIndex();
+        playwhenready = player.getPlayWhenReady();
+    }
+
+    //    @Override
+//    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+//        super.onViewStateRestored(savedInstanceState);
+//        if (savedInstanceState != null) {
+//            currentWindowIndex = savedInstanceState.getInt(BUNDLE_KEYW);
+//            currentPosition = savedInstanceState.getLong(BUNDLE_KEYP);
+//            playwhenready = savedInstanceState.getBoolean(BUNDLE_KEY);
+//            Log.e("sam", "p:" + currentPosition);
+//            Log.e("sam", "w:" + currentWindowIndex);
+//            Log.e("sam", "pla:" + playwhenready);
+//            Log.e("sam", "u:" + savedInstanceState.getString(BUNDLE_KEYU));
+//        }
+//    }
     @Override
     public void onPause() {
         super.onPause();
-        if(Util.SDK_INT <=23){
+        if(player!=null && Util.SDK_INT <=23){
             release();
+            Log.e("sam" , "released for pause" );
         }
     }
 }

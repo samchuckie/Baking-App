@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<android.support.v4.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     tools:context=".SpecificRecipe"
     android:orientation="vertical">
+    <android.support.v7.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="38sp"
+        android:textSize="24sp"
         android:text="@string/ingredients"
         android:id="@+id/ing"
-        android:paddingBottom="16dp"
+        android:paddingBottom="8dp"
+        />
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/Ingredient_frame"
         />
 
     <android.support.v7.widget.RecyclerView
@@ -21,7 +31,7 @@
         android:id="@+id/steps_rv"
         >
 
+
     </android.support.v7.widget.RecyclerView>
-
-
-</LinearLayout>
+    </android.support.v7.widget.LinearLayoutCompat>
+</android.support.v4.widget.NestedScrollView>
