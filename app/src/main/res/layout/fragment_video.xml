@@ -6,29 +6,30 @@
     android:layout_height="match_parent">
     <com.google.android.exoplayer2.ui.PlayerView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="5"
+        android:layout_height="300dp"
         android:id="@+id/frag_exo"
-        >
-    </com.google.android.exoplayer2.ui.PlayerView>
+        />
+
+    <TextView
+        style="@style/Headlines"
+        android:text="@string/instructions"
+        />
+    
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
         android:id="@+id/missing_content"
-        android:text="@string/video_url_missing"
+        android:text= "@string/video_url_missing"
         android:textSize="42sp"
         android:textAlignment="center"
         android:gravity="center"
         android:visibility="gone"
         />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/Basic"
         android:id="@+id/descrip_tv"
         tools:text="A simple desc"
-        android:textSize="24sp"
-        >
-    </TextView>
+        />
 
 </LinearLayout>

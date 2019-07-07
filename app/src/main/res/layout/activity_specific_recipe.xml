@@ -12,26 +12,28 @@
         android:orientation="vertical">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
+        style="@style/Headlines"
         android:text="@string/ingredients"
-        android:id="@+id/ing"
-        android:paddingBottom="8dp"
+        android:drawableLeft="@drawable/ingredeintsicon"
+        android:drawablePadding="8dp"
         />
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/Ingredient_frame"
         />
-
+    <TextView
+        style="@style/Headlines"
+        android:text="@string/steps"
+        android:drawableLeft="@drawable/steps"
+        android:drawablePadding="8dp"
+        />
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/steps_rv"
-        >
+        tools:listitem="@layout/steps_items"
+        />
 
-
-    </android.support.v7.widget.RecyclerView>
     </android.support.v7.widget.LinearLayoutCompat>
 </android.support.v4.widget.NestedScrollView>

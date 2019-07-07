@@ -1,4 +1,4 @@
-package com.example.asce.bakingapp;
+package com.example.asce.bakingapp.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -91,7 +91,7 @@ public class Recipe implements Parcelable {
         this.ingredients = ingredients;
     }
 
-    List<Step> getSteps() {
+    public List<Step> getSteps() {
         return steps;
     }
 

@@ -1,23 +1,23 @@
 package com.example.asce.bakingapp.Adapters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import com.example.asce.bakingapp.R;
-import com.example.asce.bakingapp.Recipe;
+import com.example.asce.bakingapp.Model.Recipe;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class AllRecipesAdapter extends RecyclerView.Adapter<AllRecipesAdapter.ViewHolder> {
     private List<Recipe> recipes = null;
     private ItemClickInterface itemClickInterface;
     private Context context;
-    private Drawable drawableleft;
 
     public AllRecipesAdapter(ItemClickInterface itemClickInterface, Context context) {
         this.itemClickInterface = itemClickInterface;
@@ -33,32 +33,25 @@ public class AllRecipesAdapter extends RecyclerView.Adapter<AllRecipesAdapter.Vi
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         viewHolder.sRecipe.setText(recipes.get(i).getName());
         String recipename = recipes.get(i).getName();
-        Log.e("sam" , "" + recipename);
+        // Using local resources as api doesnt provide any
         switch (recipename){
             case "Nutella Pie":
-                drawableleft = context.getResources().getDrawable( R.drawable.ic_jarbutter );
+                Picasso.get().load(R.drawable.nutella).into(viewHolder.recipe_iv);
                 break;
             case "Brownies":
-                drawableleft = context.getResources().getDrawable( R.drawable.ic_brownie );
+                Picasso.get().load(R.drawable.brownies).into(viewHolder.recipe_iv);
                 break;
             case "Yellow Cake":
-                drawableleft = context.getResources().getDrawable( R.drawable.ic_yellowcakes );
+                Picasso.get().load(R.drawable.yellowcake).into(viewHolder.recipe_iv);
                 break;
             case "Cheesecake":
-                drawableleft = context.getResources().getDrawable( R.drawable.ic_cake );
+                Picasso.get().load(R.drawable.cheesecake).into(viewHolder.recipe_iv);
                 break;
         }
-        viewHolder.sRecipe.setCompoundDrawablesWithIntrinsicBounds(drawableleft,null,null,null);
     }
     @Override
     public int getItemCount() {
-        if(recipes!=null)
-        {
-            return recipes.size();
-        }
-        else {
-            return 0;
-        }
+        return (recipes!=null)?recipes.size():0;
     }
     public interface ItemClickInterface{
         void itemClick(Recipe recipe);
@@ -69,9 +62,11 @@ public class AllRecipesAdapter extends RecyclerView.Adapter<AllRecipesAdapter.Vi
     }
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView sRecipe;
+        ImageView recipe_iv;
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             sRecipe = itemView.findViewById(R.id.recipe_item_rv);
+            recipe_iv = itemView.findViewById(R.id.recipe_iv);
             itemView.setOnClickListener(this);
         }
         @Override

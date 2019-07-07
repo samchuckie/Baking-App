@@ -1,57 +1,55 @@
 package com.example.asce.bakingapp;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.example.asce.bakingapp.Adapters.AllRecipesAdapter;
-import com.example.asce.bakingapp.Retro.RecipeRetro;
-import com.example.asce.bakingapp.Retro.RecipesInt;
+import com.example.asce.bakingapp.Model.Recipe;
+import com.example.asce.bakingapp.ViewModel.BakingViewModel;
 import java.util.List;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 import static com.example.asce.bakingapp.Constant.Const.MAIN_ACTIVITY;
 
-public class MainActivity extends AppCompatActivity implements AllRecipesAdapter.ItemClickInterface,RecipeResources.TimeInt {
+public class HomeActivity extends AppCompatActivity implements AllRecipesAdapter.ItemClickInterface,RecipeResources.TimeInt {
     private AllRecipesAdapter allRecipesAdapter;
     private IdlingResourceEx idlingResourceEx;
+
+    //TODO CHANGE FONT - IMPORTANT
+    //TODO ADD TOUCH SELECTOR - IMPORTANT
+    //TODO PUT INGREDIENTS AND STEPS ICON
+    //TODO PUT DIMENS IN FOLDER
+    //TODO CHANGE DIMES OF TABLETS
+    //TODO apply back navigation and tell the user which recipe they are on
+    //TODO MIGRATE TO STAGGERED VIEW
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RecyclerView allRecipes;
+        BakingViewModel bakingViewModel = ViewModelProviders.of(this).get(BakingViewModel.class);
         if(findViewById(R.id.all_items) !=null){
             allRecipes = findViewById(R.id.all_items);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-            allRecipes.setLayoutManager(linearLayoutManager);
         }
         else {
             allRecipes = findViewById(R.id.allitems_land);
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-            allRecipes.setLayoutManager(gridLayoutManager);
         }
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        allRecipes.setLayoutManager(gridLayoutManager);
         allRecipesAdapter = new AllRecipesAdapter(this ,this);
         allRecipes.setAdapter(allRecipesAdapter);
-        RecipesInt recipesInt = RecipeRetro.getinsance().create(RecipesInt.class);
-        Call<List<Recipe>> recipesCall = recipesInt.getall();
-        recipesCall.enqueue(new Callback<List<Recipe>>() {
+        bakingViewModel.getRecipeList().observe(this, new Observer<List<Recipe>>() {
             @Override
-            public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
-                List<Recipe> lrecipe=response.body();
-                allRecipesAdapter.setRecipes(lrecipe);
-            }
-            @Override
-            public void onFailure(Call<List<Recipe>> call, Throwable t) {
+            public void onChanged(@Nullable List<Recipe> recipes) {
+                allRecipesAdapter.setRecipes(recipes);
             }
         });
     }
-
     @Override
     public void itemClick(Recipe r) {
         Intent intent= new Intent(this , SpecificRecipe.class);

@@ -6,39 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".StepsActivity"
     android:orientation="vertical"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     >
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:id="@+id/exo_framer"
-        android:layout_weight="4"
-        >
+        />
 
-    </FrameLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="bottom"
         >
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/prev_vid"
             android:text="@string/previous"
-            tools:ignore="ButtonStyle" />
-        <Button
+            android:drawableLeft="@drawable/ic_arrow_back_black_24dp"
+            />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/next_vid"
             android:text="@string/next"
             android:layout_marginLeft="160dp"
             android:layout_marginStart="160dp"
-            tools:ignore="ButtonStyle" />
+            android:layout_marginTop="8dp"
+            android:drawableRight="@drawable/ic_arrow_forward_black_24dp"
+            />
 
     </LinearLayout>
-
-
 </LinearLayout>

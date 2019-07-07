@@ -14,4 +14,10 @@
     <string name="no_recipes_available">No recipes available</string>
     <string name="testing">Testing</string>
 
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="steps">Steps</string>
+    <string name="instructions">Instructions</string>
+
 </resources>

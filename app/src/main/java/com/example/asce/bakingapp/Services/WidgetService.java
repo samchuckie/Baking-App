@@ -6,7 +6,7 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 import com.example.asce.bakingapp.R;
-import com.example.asce.bakingapp.Recipe;
+import com.example.asce.bakingapp.Model.Recipe;
 import com.example.asce.bakingapp.Retro.RecipeRetro;
 import com.example.asce.bakingapp.Retro.RecipesInt;
 import java.util.List;

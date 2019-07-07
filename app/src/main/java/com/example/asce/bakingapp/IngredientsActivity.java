@@ -4,6 +4,10 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.asce.bakingapp.Fragment.IngredientFragment;
+import com.example.asce.bakingapp.Model.Ingredient;
+
 import java.util.ArrayList;
 
 public class IngredientsActivity extends AppCompatActivity {

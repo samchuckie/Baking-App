@@ -6,7 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.asce.bakingapp.Fragment.VideoFragment;
+import com.example.asce.bakingapp.Model.Recipe;
+import com.example.asce.bakingapp.Model.Step;
 
 import static com.example.asce.bakingapp.Constant.Const.MAIN_ACTIVITY;
 import static com.example.asce.bakingapp.Constant.Const.RECIPE_ACTIVITY;
@@ -21,8 +26,8 @@ public class StepsActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
-        Button next = findViewById(R.id.next_vid);
-        Button prev = findViewById(R.id.prev_vid);
+        TextView next = findViewById(R.id.next_vid);
+        TextView prev = findViewById(R.id.prev_vid);
         fragmentManager= getSupportFragmentManager();
         Intent intent = getIntent();
         if((intent!=null)&&(intent.hasExtra(MAIN_ACTIVITY))&&(intent.hasExtra(RECIPE_ACTIVITY) )) {

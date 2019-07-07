@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.asce.bakingapp.Ingredient;
+import com.example.asce.bakingapp.Model.Ingredient;
 import com.example.asce.bakingapp.R;
 
 import java.util.ArrayList;

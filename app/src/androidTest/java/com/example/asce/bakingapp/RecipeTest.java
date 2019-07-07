@@ -28,7 +28,7 @@ public class RecipeTest {
     private IdlingResourceEx idlingResourceEx;
     private IdlingRegistry idlingRegistry;
     @Rule
-    public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class);
+    public IntentsTestRule<HomeActivity> intentsTestRule = new IntentsTestRule<>(HomeActivity.class);
 
     @Before
     public void registration(){

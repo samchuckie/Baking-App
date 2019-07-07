@@ -1,4 +1,4 @@
-package com.example.asce.bakingapp;
+package com.example.asce.bakingapp.Fragment;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.asce.bakingapp.R;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerFactory;
@@ -27,12 +29,11 @@ import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYU;
 import static com.example.asce.bakingapp.Constant.Const.BUNDLE_KEYW;
 
 public class VideoFragment extends Fragment {
+    //TODO ADD PLAYER FOR VERSIONS EARLIER THAN 23
     private long currentPosition =0;
     private int currentWindowIndex=0;
     private boolean playwhenready = true;
-
-    public VideoFragment(){
-    }
+    public VideoFragment(){}
     private String url=null;
     private String description;
     private PlayerView playerView ;
@@ -49,6 +50,8 @@ public class VideoFragment extends Fragment {
     public String getDescription() {
         return description;
     }
+
+    //TODO CACHE VIDEO PREVENT DOWNLOAD AGANI
 
     @Nullable
     @Override
@@ -85,7 +88,8 @@ public class VideoFragment extends Fragment {
         Uri uri = Uri.parse(videoUrl);
         player.setPlayWhenReady(playwhenready);
         player.seekTo(currentWindowIndex ,currentPosition);
-        MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("bakingapp")).createMediaSource(uri);
+        MediaSource mediaSource = new ExtractorMediaSource.Factory(new DefaultHttpDataSourceFactory("bakingapp"))
+                .createMediaSource(uri);
         player.prepare(mediaSource, false, false);
 
     }
@@ -104,11 +108,12 @@ public class VideoFragment extends Fragment {
             outState.putString(BUNDLE_KEYD, getDescription());
         }
     }
-    public void release() {
-    if (player != null) {
-        player.release();
-        player = null;
-    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(player!=null && Util.SDK_INT <=23){
+            release();
+        }
     }
     @Override
     public void onStop() {
@@ -118,17 +123,16 @@ public class VideoFragment extends Fragment {
         }
         super.onStop();
     }
+    public void release() {
+    if (player != null) {
+        player.release();
+        player = null;
+        }
+    }
+
     private void getConfig() {
         currentPosition = player.getCurrentPosition();
         currentWindowIndex = player.getCurrentWindowIndex();
         playwhenready = player.getPlayWhenReady();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if(player!=null && Util.SDK_INT <=23){
-            release();
-        }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.asce.bakingapp;
 
 import android.support.annotation.Nullable;
+
+import com.example.asce.bakingapp.Model.Recipe;
 import com.example.asce.bakingapp.Retro.RecipeRetro;
 import com.example.asce.bakingapp.Retro.RecipesInt;
 import java.util.List;

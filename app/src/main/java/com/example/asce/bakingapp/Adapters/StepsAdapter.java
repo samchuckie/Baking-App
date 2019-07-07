@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import com.example.asce.bakingapp.R;
-import com.example.asce.bakingapp.Step;
+import com.example.asce.bakingapp.Model.Step;
 
 import java.util.List;
 

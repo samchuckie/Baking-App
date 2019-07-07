@@ -1,4 +1,4 @@
-package com.example.asce.bakingapp;
+package com.example.asce.bakingapp.Fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.asce.bakingapp.Adapters.IngredientAdapter;
+import com.example.asce.bakingapp.Model.Ingredient;
+import com.example.asce.bakingapp.R;
 
 import java.util.ArrayList;
 
@@ -28,7 +30,6 @@ public class IngredientFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ingredientAdapter = new IngredientAdapter();
-
     }
 
     @Nullable

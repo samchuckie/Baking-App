@@ -10,4 +10,5 @@ public class Const {
     public static final String BUNDLE_KEYU = "bundleu";
     public static final String ITEM = "item";
     public static final String APPWIDGET_ID = "appwidget_id";
+    public static final String BASE_URL="https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/";
 }

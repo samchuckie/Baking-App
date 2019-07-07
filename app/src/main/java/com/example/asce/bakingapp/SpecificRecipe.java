@@ -7,6 +7,11 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.example.asce.bakingapp.Adapters.StepsAdapter;
+import com.example.asce.bakingapp.Fragment.IngredientFragment;
+import com.example.asce.bakingapp.Fragment.VideoFragment;
+import com.example.asce.bakingapp.Model.Ingredient;
+import com.example.asce.bakingapp.Model.Recipe;
+
 import java.util.ArrayList;
 import static com.example.asce.bakingapp.Constant.Const.MAIN_ACTIVITY;
 import static com.example.asce.bakingapp.Constant.Const.RECIPE_ACTIVITY;
@@ -74,7 +79,6 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
             videoFragment.setUrl(url);
             videoFragment.setDescription(desc);
             fragmentManager.beginTransaction().replace(R.id.recipe_frame, videoFragment).commit();
-
         }
         else {
             Intent intent = new Intent(this ,StepsActivity.class);
