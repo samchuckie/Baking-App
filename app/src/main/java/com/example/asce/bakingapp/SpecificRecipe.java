@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import com.example.asce.bakingapp.Adapters.StepsAdapter;
@@ -30,13 +31,14 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
         RecyclerView recyclerView = findViewById(R.id.steps_rv);
         StepsAdapter stepsAdapter = new StepsAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.ItemDecoration decoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(decoration);
         recyclerView.setAdapter(stepsAdapter);
         recyclerView.setLayoutManager(linearLayoutManager);
         fragmentManager= getSupportFragmentManager();
         if (findViewById(R.id.recipe_frame)!=null)
         {
             landscape=true;
-
         }
         Intent intent = getIntent();
         if ((intent!=null) && intent.hasExtra(MAIN_ACTIVITY)){
@@ -74,6 +76,9 @@ public class SpecificRecipe extends AppCompatActivity implements StepsAdapter.St
               url = recipe.getSteps().get(step).getThumbnailURL();
             }
             String desc = recipe.getSteps().get(step).getDescription();
+
+            //TODO one fragment reuse it
+
             videoFragment.setUrl(url);
             videoFragment= new VideoFragment();
             videoFragment.setUrl(url);

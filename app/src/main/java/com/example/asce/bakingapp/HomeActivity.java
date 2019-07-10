@@ -21,7 +21,6 @@ public class HomeActivity extends AppCompatActivity implements AllRecipesAdapter
 
     //TODO CHANGE FONT - IMPORTANT
     //TODO ADD TOUCH SELECTOR - IMPORTANT
-    //TODO PUT INGREDIENTS AND STEPS ICON
     //TODO PUT DIMENS IN FOLDER
     //TODO CHANGE DIMES OF TABLETS
     //TODO apply back navigation and tell the user which recipe they are on

@@ -36,7 +36,6 @@ public class IngredientFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragement_ingredient, container, false);
-        // TODO CHANGE LAYOUT FOR THE RECYCLEVIEW OF THIS LAYOUT
         RecyclerView recyclerView = v.findViewById(R.id.ig_rv);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);

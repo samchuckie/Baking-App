@@ -69,7 +69,7 @@ public class VideoFragment extends Fragment {
             setDescription(savedInstanceState.getString(BUNDLE_KEYD));
         }
         desc.setText(getDescription());
-        // TODO get utl is non on screen unlock
+        // TODO get url is non on screen unlock
         if (getUrl()!=null && Util.SDK_INT>23)
         {
             initializeExoPlayer(getUrl());
